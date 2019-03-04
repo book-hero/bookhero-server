@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { faSearch } from '@fortawesome/pro-regular-svg-icons'
+import { faSearch, faChevronLeft } from '@fortawesome/pro-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Loading from '../common/Loading'
+import BookInfo from '../common/BookInfo'
 
 const BookSearchBar = props => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -52,13 +53,14 @@ const BookSearchBar = props => {
 const SearchResult = props => {
   const styles = {
     display: 'flex',
+    cursor: 'pointer',
     '&:hover': {
       backgroundColor: '#eceeef'
     }
   }
 
   return (
-    <div className='list-group-item' css={styles}>
+    <div className='list-group-item' css={styles} onClick={props.handleClick}>
       <img
         css={{
           marginRight: 15,
@@ -80,17 +82,13 @@ const SearchResult = props => {
   )
 }
 
-const SearchResults = props => {
-  return (
-    <div className='list-group'>
-      {props.results.map((result, index) => (
-        <SearchResult result={result} key={index} />
-      ))}
-    </div>
-  )
-}
+// const SearchResults = props => {
+//   return (
 
-const Contribute = props => {
+//   )
+// }
+
+const Search = props => {
   const [searchResults, setSearchResults] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
@@ -104,7 +102,6 @@ const Contribute = props => {
             searchTerm
           )}`
         )
-        console.log(result.data.docs)
         setSearchResults(result.data.docs.slice(0, 5))
         setIsLoading(false)
       }
@@ -116,16 +113,64 @@ const Contribute = props => {
   const displayedSearchResults = isLoading ? (
     <Loading />
   ) : (
-    <SearchResults results={searchResults} />
+    <div className='list-group'>
+      {searchResults.map((result, index) => (
+        <SearchResult
+          result={result}
+          key={index}
+          handleClick={props.handleBookClick(result)}
+        />
+      ))}
+    </div>
   )
 
   return (
     <div>
-      <div css={{ marginTop: 25 }}>
-        <h4>Search</h4>
-        <BookSearchBar handleSubmit={handleSubmit} />
-        {displayedSearchResults}
-      </div>
+      <h4>Search</h4>
+      <BookSearchBar handleSubmit={handleSubmit} />
+      {displayedSearchResults}
+    </div>
+  )
+}
+
+const Contribute = props => {
+  const [selectedBook, setSelectedBook] = useState(null)
+  const [showAddBook, setShowAddBook] = useState(true)
+
+  const handleBookClick = result => () => {
+    setSelectedBook({
+      author: result.author_name,
+      coverId: result.cover_i,
+      isbns: result.isbn,
+      publishers: result.publisher,
+      publishYears: result.publish_year,
+      title: result.title
+    })
+    console.log(result)
+    setShowAddBook(true)
+  }
+
+  const handleGoBack = () => {
+    setShowAddBook(false)
+  }
+
+  return (
+    <div css={{ marginTop: 15 }}>
+      {showAddBook ? (
+        <div>
+          <h4>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              css={{ marginRight: 15 }}
+              onClick={handleGoBack}
+            />
+            Add Book
+          </h4>
+          <BookInfo book={selectedBook} goBack={handleGoBack} />
+        </div>
+      ) : (
+        <Search handleBookClick={handleBookClick} />
+      )}
     </div>
   )
 }

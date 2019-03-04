@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from '@reach/router'
 
 const NavLink = props => (
@@ -15,7 +15,12 @@ const NavLink = props => (
 
 const NavBar = props => {
   return (
-    <nav className='navbar navbar-expand-sm navbar-light bg-light'>
+    <nav
+      className={`navbar fixed-top navbar-expand-sm navbar-light bg-light ${
+        props.small ? 'shrink' : ''
+      }`}
+      css={{ padding: '.5rem 1rem' }}
+    >
       <button
         className='navbar-toggler'
         type='button'
@@ -31,7 +36,7 @@ const NavBar = props => {
         <a className='navbar-brand' href='#'>
           Book Hero
         </a>
-        <ul className='navbar-nav mr-auto mt-2 mt-lg-0'>
+        <ul className='navbar-nav mr-auto mt-lg-0'>
           <li className='nav-item'>
             <NavLink to='feed' className=''>
               Feed

@@ -21,7 +21,11 @@ const NotFound = () => (
     <br />
     <br />
     <blockquote className='blockquote'>
-      <p>"Not all those who wander are lost."</p>
+      <p>
+        "All that is gold does not glitter, not all those who wander are lost;
+        the old that is strong does not wither, deep roots are not reached by
+        the frost."
+      </p>
       <footer className='blockquote-footer'>
         J.R.R. Tolkien, <i>The Fellowship of the Ring</i>
       </footer>
