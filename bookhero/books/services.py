@@ -16,21 +16,40 @@ class OLBook(object):
         return self.title
 
 
+class Author(object):
+    def __init__(self, url, name):
+        self.url = url
+        self.name = name
+
+
+class Subject(object):
+    def __init__(self, url, name):
+        self.url = url
+        self.name = name
+
+
 class SubjectSerializer(serializers.Serializer):
     url = serializers.CharField(max_length=255)
     name = serializers.CharField(max_length=100)
+
+    def create(self, validated_data):
+        return Subject(**validated_data)
 
 
 class AuthorSerializer(serializers.Serializer):
     url = serializers.CharField(max_length=255)
     name = serializers.CharField(max_length=100)
 
+    def create(self, validated_data):
+        return Author(**validated_data)
+
 
 class OLBookSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=100)
     authors = AuthorSerializer(many=True)
-    subjects = SubjectSerializer(many=True)
-    publish_date = serializers.DateField(input_formats=["%B %Y", "%B %d, %Y"])
+    subjects = SubjectSerializer(many=True, required=False)
+    publish_date = serializers.DateField(
+        input_formats=["%B %Y", "%B %d, %Y", "%B %d %Y"])
     url = serializers.CharField(max_length=100)
 
     def create(self, validated_data):
@@ -44,5 +63,10 @@ def get_open_library_book_info(isbn):
     data = response.json()["ISBN:" + isbn]
     serializer = OLBookSerializer(data=data)
     serializer.is_valid()
+
+    if serializer.errors:
+        print(serializer.initial_data)
+        print(serializer.errors)
+        return None
 
     return serializer.save()

@@ -1,4 +1,5 @@
-from books.models import Book
+from books.models import Book, Author
+from django.db.models import Q
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from .serializers import BookSerializer
@@ -13,14 +14,14 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
 
     def create(self, request):
-        ol_book = get_open_library_book_info("0575097345")
-        book = Book(title=ol_book.title, publish_date=ol_book.publish_date,
-                    open_library_url=ol_book.url)
+        # get or make the author objects
+        authors = []
+        for author in request.data['authors']:
+            existing_author, created = Author.objects.get_or_create(
+                name=author)
+            authors.append(existing_author.id)
+        request.data['authors'] = authors
 
-        # get author id, and if they don't exist, create them.
+        # get applicable attribute ids
 
-        # get subject id, and create if not exist
-
-        # make sure book doesn't already exist, and then add it with references to subjects and author(s)
-
-        return Response({'status': 'success'})
+        return super(BookViewSet, self).create(request)
