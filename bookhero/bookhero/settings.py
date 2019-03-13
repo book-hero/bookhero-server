@@ -26,8 +26,10 @@ SECRET_KEY = '-4r&xhq&+8m5bjblv&vu)8ltu!2(^*t6yrr1ww=3(1dm2iw6fu'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8000',
+    'localhost:8080'
+)
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,13 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'attributes',
     'books',
-    'frontend'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

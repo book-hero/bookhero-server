@@ -12,16 +12,3 @@ class BookViewSet(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = BookSerializer
-
-    def create(self, request):
-        # get or make the author objects
-        authors = []
-        for author in request.data['authors']:
-            existing_author, created = Author.objects.get_or_create(
-                name=author)
-            authors.append(existing_author.id)
-        request.data['authors'] = authors
-
-        # get applicable attribute ids
-
-        return super(BookViewSet, self).create(request)
