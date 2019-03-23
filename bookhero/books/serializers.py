@@ -23,5 +23,4 @@ class BookSerializer(serializers.ModelSerializer):
             new_authors.append(Author.objects.create(**author))
 
         book.authors.set(new_authors)
-        print(book)
         return book

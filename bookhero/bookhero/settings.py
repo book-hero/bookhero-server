@@ -24,12 +24,6 @@ SECRET_KEY = '-4r&xhq&+8m5bjblv&vu)8ltu!2(^*t6yrr1ww=3(1dm2iw6fu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-CORS_ORIGIN_WHITELIST = (
-    'localhost:8000',
-    'localhost:8080'
-)
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,6 +37,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'attributes',
     'books',
+    'user_profiles',
+    'users',
+
 ]
 
 MIDDLEWARE = [
@@ -126,3 +123,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Other stuff
+
+ALLOWED_HOSTS = []
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8000',
+    'localhost:8080'
+)
+
+AUTH_USER_MODEL = 'users.User'

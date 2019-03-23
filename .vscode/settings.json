@@ -1,3 +1,4 @@
 {
-  "python.pythonPath": "/Users/loganwaite/.local/share/virtualenvs/bookhero2-E8N1J6sK/bin/python"
+  "python.pythonPath": "/Users/loganwaite/.local/share/virtualenvs/bookhero2-E8N1J6sK/bin/python",
+  "editor.formatOnSave": true
 }
