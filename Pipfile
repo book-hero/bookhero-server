@@ -12,6 +12,7 @@ djangorestframework = "*"
 django-rest-knox = "*"
 requests = "*"
 django-cors-headers = "*"
+djangorestframework-simplejwt = "*"
 
 [requires]
 python_version = "3.7"
