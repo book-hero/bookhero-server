@@ -23,6 +23,7 @@ class Book(TimeStamped):
     title = models.CharField(max_length=100)
     authors = models.ManyToManyField(Author)
     attributes = models.ManyToManyField(Attribute, through='BookAttribute')
+    subtitle = models.CharField(max_length=255, null=True)
     # synopsis = models.TextField(null=True)
     # publish_date = models.DateField(null=True)
     # subjects = models.ManyToManyField(Subject)
@@ -30,7 +31,7 @@ class Book(TimeStamped):
     # open_library_url = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.title
+        return self.title + (": " + self.subtitle if self.subtitle != None else '')
 
 
 # class Identifier(TimeStamped):

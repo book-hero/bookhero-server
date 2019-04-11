@@ -14,7 +14,7 @@ class UserBookStatus(models.Model):
 
 
 # Create your models here.
-class UserProfile(TimeStamped):
+class Profile(TimeStamped):
     user = models.OneToOneField(
         User, related_name='profile', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
@@ -26,16 +26,16 @@ class UserProfile(TimeStamped):
 
 class UserBook(TimeStamped):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     status = models.ForeignKey(UserBookStatus, on_delete=models.CASCADE)
-    started = models.DateTimeField()
-    date_finished = models.DateTimeField()
+    started = models.DateTimeField(null=True)
+    date_finished = models.DateTimeField(null=True)
 
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
+        Profile.objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)

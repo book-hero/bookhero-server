@@ -5,11 +5,11 @@ from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import ugettext_lazy as _
 
 from .models import User
-from user_profiles.models import UserProfile
+from user_profiles.models import Profile
 
 
-class UserProfileInline(admin.StackedInline):
-    model = UserProfile
+class ProfileInline(admin.StackedInline):
+    model = Profile
     can_delete = False
     verbose_name_plural = 'profile'
 
@@ -34,4 +34,4 @@ class UserAdmin(DjangoUserAdmin):
     list_display = ('email', 'first_name', 'last_name', 'is_staff')
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
-    inlines = (UserProfileInline,)
+    inlines = (ProfileInline,)
