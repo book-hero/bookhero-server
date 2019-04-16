@@ -1,6 +1,6 @@
 from django.db import models
 from bookhero.models import TimeStamped
-from books.models import Book
+import books.models
 from users.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -18,14 +18,14 @@ class Profile(TimeStamped):
     user = models.OneToOneField(
         User, related_name='profile', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    books = models.ManyToManyField(Book, through="UserBook")
+    books = models.ManyToManyField('books.Book', through="UserBook")
 
     def __str__(self):
         return self.user.email
 
 
 class UserBook(TimeStamped):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey('books.Book', on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     status = models.ForeignKey(UserBookStatus, on_delete=models.CASCADE)
     started = models.DateTimeField(null=True)

@@ -7,7 +7,4 @@ from .serializers import AttributeSerializer
 
 class AttributeViewSet(viewsets.ModelViewSet):
     queryset = Attribute.objects.all()
-    permission_classes = [
-        permissions.AllowAny
-    ]
     serializer_class = AttributeSerializer

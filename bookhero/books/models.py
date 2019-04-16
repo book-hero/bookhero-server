@@ -1,6 +1,7 @@
 from django.db import models
 from bookhero.models import TimeStamped
-from attributes.models import Attribute
+from attributes.models import Attribute, AttributeDescriptor
+import user_profiles.models
 
 
 # class Subject(TimeStamped):
@@ -44,3 +45,11 @@ class BookAttribute(TimeStamped):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
     value = models.IntegerField
+
+
+class UserBookAttributeDescriptor(TimeStamped):
+    profile = models.ForeignKey(
+        'user_profiles.Profile', on_delete=models.SET_NULL, null=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    descriptor = models.ForeignKey(
+        AttributeDescriptor, on_delete=models.CASCADE)
