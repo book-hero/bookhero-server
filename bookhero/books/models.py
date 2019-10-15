@@ -44,7 +44,10 @@ class Book(TimeStamped):
 class BookAttribute(TimeStamped):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
-    value = models.IntegerField
+    value = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.book.title + " - " + self.attribute.name
 
 
 class UserBookAttributeDescriptor(TimeStamped):
