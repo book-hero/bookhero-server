@@ -1,5 +1,6 @@
 from django.db import models
 from bookhero.models import TimeStamped
+import attributes.models
 import books.models
 from users.models import User
 from django.dispatch import receiver
@@ -19,6 +20,8 @@ class Profile(TimeStamped):
         User, related_name='profile', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     books = models.ManyToManyField('books.Book', through="UserBook")
+    attributes = models.ManyToManyField(
+        'attributes.Attribute', through="UserAttribute")
 
     def __str__(self):
         return self.user.email
@@ -30,6 +33,13 @@ class UserBook(TimeStamped):
     status = models.ForeignKey(UserBookStatus, on_delete=models.CASCADE)
     started = models.DateTimeField(null=True)
     date_finished = models.DateTimeField(null=True)
+
+
+class UserAttribute(TimeStamped):
+    attribute = models.ForeignKey(
+        'attributes.Attribute', on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    value = models.IntegerField(null=True)
 
 
 @receiver(post_save, sender=User)

@@ -130,7 +130,8 @@ STATIC_URL = '/static/'
 ALLOWED_HOSTS = []
 CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
-    'localhost:8080'
+    'localhost:8080',
+    'localhost:8001'
 )
 
 AUTH_USER_MODEL = 'users.User'
@@ -149,7 +150,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'JWT_ALLOW_REFRESH': True,
-    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(seconds=10),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(weeks=2),
     'ROTATE_REFRESH_TOKENS': True
 }
