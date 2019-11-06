@@ -18,6 +18,13 @@ class UserBookViewSet(viewsets.ModelViewSet):
         request.data['profile'] = request.user.profile.id
         return super(UserBookViewSet, self).create(request)
 
+    def perform_update(self, serializer):
+        if (serializer.validated_data["status"]
+                == UserBookStatus.objects.get(id=2)):
+            serializer.save(started=timezone.now())
+        else:
+            serializer.save()
+
     @action(methods=['post'], detail=True, url_path='finish')
     def finish_book(self, request, pk=None):
         data = request.data
